@@ -1,3 +1,8 @@
+##Asher Lasday
+##SoftDev1 pd 8
+##HW 04 -- Into a Zone of Danger
+##2016-09-29
+
 from flask import Flask, render_template, request
 appfrm = Flask(__name__)##creates an instance of a flask and instatiates its name
 
@@ -25,6 +30,7 @@ def login_info_w_auth():
 
 @appfrm.route("/auth", methods= ["POST"])
 def login_info():
+    '''
     print "\n\n\n"
     print ":::DIAG::: this flask obj"
     print appfrm
@@ -41,7 +47,14 @@ def login_info():
     print ":::DIAG::: this request.from obj"
     print request.form
     return render_template("form.html")
+    '''
 
+    if request.form["username"] == "John" and request.form["password"] == "Doe":
+        return render_template("result.html", outcome = "Success")
+    return render_template("result.html", outcome = "Failure")
+
+    
+    
 
     
 if __name__=="__main__":
