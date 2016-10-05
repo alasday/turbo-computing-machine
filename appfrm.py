@@ -4,12 +4,15 @@
 ##2016-09-29
 
 from flask import Flask, render_template, request
+import hashlib
+import csv
 appfrm = Flask(__name__)##creates an instance of a flask and instatiates its name
-
+data = dict()
 
 
 @appfrm.route("/")
-def login_info_w_auth():
+def home():
+    '''
     print "\n\n\n"
     print ":::DIAG::: this flask obj"
     print appfrm
@@ -25,11 +28,12 @@ def login_info_w_auth():
     #print request.args 
     print ":::DIAG::: this request.from obj"
     print request.form
-    return render_template("form.html")
+    '''
+    return render_template("index.html")
     
 
-@appfrm.route("/auth", methods= ["POST"])
-def login_info():
+@appfrm.route("/reg", methods= ["POST"])
+def register():
     '''
     print "\n\n\n"
     print ":::DIAG::: this flask obj"
@@ -48,12 +52,44 @@ def login_info():
     print request.form
     return render_template("form.html")
     '''
+    user = request.form["username"]
+    passw = request.form["password"]
 
-    if request.form["username"] == "John" and request.form["password"] == "Doe":
-        return render_template("result.html", outcome = "Success")
-    return render_template("result.html", outcome = "Failure")
+    if user in usrpw:
+        return render_template("result.html", outcome = "username already exists, try logging in")
+    else:
+        hashObj = hashlib.sha1()
+        hashObj.update(passw)
+        hashtPass = hashObj.hexdigest()
+        writeFile(user,hashtPass)
+        readfile()
+        return  render_template("result.html", outcome = "Success")
 
-    
+@appfrm.route("/login", methods = ['POST'])
+def login():
+    hashObj = hashlib.sha1()
+    user = request.form["username"]
+    passw = request.form["password"]
+    hashObj.update(passw)
+    if user in data:
+        if data[user] == hasgObj.hexdigest():
+            return render_template("result.html", outcome = "Success, you're logged in")
+        return render_template("result.html", outcome = "incorrect password")
+    return render_template("result.html", outcome = "user does not exist")
+
+
+def readFile():
+    with open('data.csv','r') as csvfile:
+        readr = csv.reader(csvfile)
+        for row in readr:
+            if row[0] != "user" and row[1] != "passw" and (row[0] not in data):
+                data[row[0]] = row[1]
+
+def writeFile(u,p):
+  with open ('data.csv', 'w') as csvfile:
+      writr = csv.writer(csvfile)
+      writr.writerow([u,p])
+ 
     
 
     
