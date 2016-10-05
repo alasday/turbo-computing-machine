@@ -19,10 +19,10 @@ def login_info_w_auth():
     print request.headers
     print ":::DIAG::: this request.method obj"
     print request.method
-    print ":::DIAG::: this request.args[username] obj"
-    print request.args["username"]
-    print ":::DIAG::: this request.args obj"
-    print request.args 
+    #print ":::DIAG::: this request.args[username] obj"
+    #print request.args["username"]
+    #print ":::DIAG::: this request.args obj"
+    #print request.args 
     print ":::DIAG::: this request.from obj"
     print request.form
     return render_template("form.html")
