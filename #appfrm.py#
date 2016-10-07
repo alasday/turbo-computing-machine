@@ -29,14 +29,19 @@ def home():
     print ":::DIAG::: this request.from obj"
     print request.form
     '''
-    readFile()
-    return render_template("form.html")
-    
+    hashObj = hashlib.sha1()
+    user = request.form["username"]
+    passw = request.form["password"]
+    hashObj.update(passw)
+    if user in data:
+        if data[user] == hasgObj.hexdigest():
+            return render_template("result.html", outcome = "Success, you're logged in")
+        return render_template("result.html", outcome = "incorrect password")
+    return render_template("result.html", outcome = "user does not exist")    
 @appfrm.route("/jacobo")
 def js():
     print url_for("js")
     return redirect("http://xkcd.com")
-
 
 @appfrm.route("/reg", methods= ["POST"])
 def register():
@@ -82,6 +87,7 @@ def login():
             return render_template("result.html", outcome = "Success, you're logged in")
         return render_template("result.html", outcome = "incorrect password")
     return render_template("result.html", outcome = "user does not exist")
+
 
 
 def readFile():
